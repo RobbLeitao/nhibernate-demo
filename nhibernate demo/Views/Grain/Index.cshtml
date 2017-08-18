@@ -1,0 +1,99 @@
+﻿@model IEnumerable<nhibernate_demo.Models.Grain>
+
+@{
+    ViewBag.Title = "Grains";
+}
+
+<!--script type="text/javascript">
+    var model = @Html.Raw(nhibernate_demo.JsonSerialization.IEnumerableExtensions.ToJson(Model))
+    $(document).ready(function () {
+       refreshTable();
+    });
+
+    function deleteItem(id)
+    {
+        
+        $.post("/Grain/DeleteAjax", { id: id}, function()
+        {
+            refreshTable();
+        });
+    }
+
+    function refreshTable()
+    {
+        $.get("/Grain/IndexJson", function(json){
+            model = json;
+            var text = new EJS({ url: "@Url.Content("~/templates/Grain/Index.ejs")", cache: true}).render({data: model});
+            $("#indexTable").html(text);
+        });
+    }
+</!--script-->
+
+<div class="center">
+    <h2>Grains</h2>
+
+    <div class="scroll">
+        <table class="table-center">
+            <tr>
+
+                <th>
+                    Name
+                </th>
+                <th>
+                    Farmer
+                </th>
+                <th>
+                    Features
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Farmer.Name
+                    </td>
+                    <td>
+                        @{
+                            int c = 1;
+                            var list = item.Features.ToList();
+                            foreach (var feature in list)
+                            {
+                                string palabra = feature.Name + ", ";
+                                if (c < list.Count)
+                                {
+                                    @palabra;
+                                }
+
+                                else
+                                {
+                                    @feature.Name;
+                                }
+
+                                c++;
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <hr class="hr-center" />
+
+    <p>
+        <a class="btn btn-default no-decoration" href="/Grain/Create">Create New</a>
+    </p>
+</div>
+

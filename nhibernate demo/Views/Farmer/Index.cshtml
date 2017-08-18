@@ -1,0 +1,44 @@
+﻿@model IEnumerable<nhibernate_demo.Models.Farmer>
+
+@{
+    ViewBag.Title = "Farmers";
+}
+
+<div class="center">
+    <h2>Farmers</h2>
+    <div class="scroll">
+        <table class="table-center">
+            <tr>
+
+                <th>
+                    Name
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <hr class="hr-center" />
+
+    <p>
+        <a class="btn btn-default no-decoration" href="/Farmer/Create">Create New</a>
+    </p>
+
+</div>
+
